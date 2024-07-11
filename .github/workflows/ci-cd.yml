@@ -16,23 +16,31 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Set PowerShell execution policy
+      run: Set-ExecutionPolicy RemoteSigned -Scope Process -Force
+      shell: pwsh
+
     - name: Set up environment and install dependencies
       run: |
         python -m venv venv
         .\venv\Scripts\activate
         pip install -r requirements.txt
+      shell: pwsh
 
     - name: Run tests
       run: |
         .\venv\Scripts\activate
         pytest
+      shell: pwsh
 
     - name: Build Docker image
       run: |
         docker build -t flask-docker-ci-cd .
+      shell: pwsh
 
     - name: Deploy Docker container
       run: |
         docker stop flask_container || true
         docker rm flask_container || true
         docker run -d -p 80:5000 --name flask_container flask-docker-ci-cd
+      shell: pwsh
