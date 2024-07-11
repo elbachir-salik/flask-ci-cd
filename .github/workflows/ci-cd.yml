@@ -16,8 +16,9 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set PowerShell execution policy
-      run: powershell.exe -command "Set-ExecutionPolicy RemoteSigned -Scope Process -Force"
+    - name: Set PowerShell execution policy globally
+      run: |
+        powershell.exe -command "Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force"
 
     - name: Set up environment and install dependencies
       run: |
