@@ -33,18 +33,3 @@ jobs:
       run: |
         docker build -t flask-docker-ci-cd .
       shell: powershell
-
-    - name: Deploy Docker container
-      run: |
-        try {
-          docker stop flask_container
-        } catch {
-          Write-Host "Failed to stop container or container does not exist."
-        }
-        try {
-          docker rm flask_container
-        } catch {
-          Write-Host "Failed to remove container or container does not exist."
-        }
-        docker run -d -p 80:5000 --name flask_container flask-docker-ci-cd
-      shell: powershell
