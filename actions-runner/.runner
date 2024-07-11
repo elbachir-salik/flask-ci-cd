@@ -1,0 +1,9 @@
+﻿{
+  "agentId": 2,
+  "agentName": "MININT-5SMHFAK",
+  "poolId": 1,
+  "poolName": "Default",
+  "serverUrl": "https://pipelinesghubeus15.actions.githubusercontent.com/fdRSQ3vjmRBrI5J1yNAo7EdBaKGaio6VQL6s24mWsFeCKCdozb/",
+  "gitHubUrl": "https://github.com/elbachir-salik/flask-ci-cd",
+  "workFolder": "_work"
+}

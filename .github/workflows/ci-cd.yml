@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: self-hosted
 
     steps:
     - name: Checkout code
@@ -31,13 +31,6 @@ jobs:
       run: |
         .\venv\Scripts\activate
         pytest
-
-    - name: Set up Docker
-      run: |
-        Invoke-WebRequest -Uri https://download.docker.com/win/stable/Docker%20Desktop%20Installer.exe -OutFile DockerDesktopInstaller.exe
-        Start-Process DockerDesktopInstaller.exe -ArgumentList "/quiet", "/install" -NoNewWindow -Wait
-        Start-Sleep -Seconds 10
-        & "C:\Program Files\Docker\Docker\DockerCli.exe" -SwitchLinuxEngine
 
     - name: Build Docker image
       run: |
