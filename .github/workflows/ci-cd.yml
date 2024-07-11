@@ -27,7 +27,7 @@ jobs:
         .\venv\Scripts\activate
         pip install -r requirements.txt
 
-    - name: Test with pytest
+    - name: Run tests
       run: |
         .\venv\Scripts\activate
         pytest
