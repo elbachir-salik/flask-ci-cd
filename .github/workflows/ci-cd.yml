@@ -1,0 +1,50 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: Install dependencies
+      run: |
+        python -m venv venv
+        .\venv\Scripts\activate
+        pip install -r requirements.txt
+
+    - name: Test with pytest
+      run: |
+        .\venv\Scripts\activate
+        pytest
+
+    - name: Set up Docker
+      run: |
+        Invoke-WebRequest -Uri https://download.docker.com/win/stable/Docker%20Desktop%20Installer.exe -OutFile DockerDesktopInstaller.exe
+        Start-Process DockerDesktopInstaller.exe -ArgumentList "/quiet", "/install" -NoNewWindow -Wait
+        Start-Sleep -Seconds 10
+        & "C:\Program Files\Docker\Docker\DockerCli.exe" -SwitchLinuxEngine
+
+    - name: Build Docker image
+      run: |
+        docker build -t flask-docker-ci-cd .
+
+    - name: Deploy Docker container
+      run: |
+        docker stop flask_container || true
+        docker rm flask_container || true
+        docker run -d -p 80:5000 --name flask_container flask-docker-ci-cd
